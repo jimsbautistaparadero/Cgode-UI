@@ -12,11 +12,6 @@ Cgode UI is a modular Roblox Luau UI framework built for mobile, tablet, desktop
 - Configuration export/import/reset
 - Existing-style API: `CreateWindow`, `CreateTab`, `AddSection`, `AddButton`, `AddToggle`, `AddSlider`, `AddDropdown`, `AddTextbox`, etc.
 
-## Studio installation
-Create a Folder named `CgodeUI` inside `ReplicatedStorage` and copy the included folder contents into it. The root ModuleScript is `CgodeUI.lua`.
-
-A Rojo project descriptor is included for developers who prefer Rojo.
-
 ## Example
 See `CgodeUI/Examples/Basic.client.lua`.
 
