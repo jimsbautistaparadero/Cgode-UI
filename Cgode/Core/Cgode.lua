@@ -1,8 +1,8 @@
 local Cgode = {}
 Cgode.__index = Cgode
 Cgode.Name = "Cgode UI"
-Cgode.Version = "4.0.0"
-Cgode.Build = "modular-solid"
+Cgode.Version = "4.1.0"
+Cgode.Build = "visual-polish"
 Cgode.Components = {}
 Cgode.Platforms = {}
 Cgode.Themes = {}

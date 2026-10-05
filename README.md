@@ -1,6 +1,6 @@
-# Cgode UI 4.0 Modular
+# Cgode UI 4.1 Visual Polish
 
-Cgode UI is a Roblox/Luau UI library built around one stable public loader and a modular internal architecture.
+Cgode UI is a Roblox/Luau UI library with a polished, responsive visual system built around one stable public loader and a modular internal architecture.
 
 **Public source / loader**
 
@@ -54,6 +54,37 @@ end)
 
 window:Notify("Cgode UI", "Library loaded")
 ```
+
+## Visual design system
+
+The 4.1 pass focuses only on presentation and interaction feel. Windows now use layered depth, a polished header, accent glow, richer navigation, animated controls, responsive density, stronger typography hierarchy, and cleaner modal/toast surfaces.
+
+```lua
+local window = lib:CreateWindow("My App", "MyApp", true, {
+    Icon = "✦",
+    Subtitle = "CONTROL CENTER",
+    StatusText = "READY",
+    SidebarHeader = "NAVIGATION",
+    SidebarFooter = "v4.1 • polished",
+    SidebarWidth = 168,
+    CornerRadius = 14,
+    Responsive = true,
+})
+
+local tab = window:CreateTab("Overview", {
+    Icon = "◈",
+    Badge = "1",
+    Description = "Clean dashboard content with visual hierarchy.",
+})
+
+local section = tab:CreateSection("Appearance", false, {
+    Description = "Presentation",
+})
+```
+
+### UI polish highlights
+
+The visual layer includes elevated window shadows, dual border treatment, header gradients, accent rails, brand marks, status pills, animated tab selection, active-tab indicators, tab badges, scroll styling, section accent rails, section chevrons, hover states, press states, hover scaling, focus states for text fields, richer button surfaces, stronger heading typography, muted secondary text, responsive sidebar widths, mobile window fitting, modal elevation, animated modal entry, animated toast entry/exit, semantic toast stripes, redesigned command palette presentation, redesigned context menus, a visible resize grip, improved spacing, consistent corner radii, softer borders, visual depth between surfaces, accent-aware progress bars, persistent color-picker swatches, theme-refresh UI callbacks, and polished feedback surfaces.
 
 ## What is included
 

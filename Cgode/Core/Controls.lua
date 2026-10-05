@@ -2,25 +2,40 @@ return function(Cgode)
     local UIS=game:GetService("UserInputService")
     local TextService=game:GetService("TextService")
     local function theme() return Cgode.ThemeManager.Current end
+    local function tween(inst, duration, props)
+        if not inst or not inst.Parent then return end
+        return Cgode.AnimationManager:Tween(inst, duration or .12, props or {}, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    end
     local function mark(inst,role)
         inst:SetAttribute("CgodeRole",role)
         local value=theme()[role]
         if value then
-            if inst:IsA("TextLabel") or inst:IsA("TextBox") then inst.TextColor3=value end
+            if inst:IsA("TextLabel") or inst:IsA("TextBox") or inst:IsA("TextButton") then inst.TextColor3=value end
             if inst:IsA("Frame") or inst:IsA("ScrollingFrame") or inst:IsA("TextButton") then inst.BackgroundColor3=value end
+            if inst:IsA("UIStroke") then inst.Color=value end
         end
         return inst
     end
     local function corner(inst,r) local c=Instance.new("UICorner");c.CornerRadius=UDim.new(0,r or 8);c.Parent=inst;return c end
-    local function stroke(inst) local s=Instance.new("UIStroke");s.Thickness=1;s.Color=theme().Border;s.ApplyStrokeMode=Enum.ApplyStrokeMode.Border;s.Parent=inst;return s end
+    local function stroke(inst,role,transparency,thickness) local s=Instance.new("UIStroke");s.Thickness=thickness or 1;s.Color=theme()[role or "BorderSoft"] or theme().Border;s.Transparency=transparency or .14;s.ApplyStrokeMode=Enum.ApplyStrokeMode.Border;s.Parent=inst;mark(s,role or "BorderSoft");return s end
+    local function gradient(inst,a,b,rotation) local g=Instance.new("UIGradient");g.Name="CgodeControlGradient";g:SetAttribute("CgodeGradientA",a);g:SetAttribute("CgodeGradientB",b);g.Color=ColorSequence.new(theme()[a] or theme().Surface2,theme()[b] or theme().Surface);g.Rotation=rotation or 90;g.Parent=inst;return g end
     local function frame(parent,height)
-        local f=Instance.new("Frame");f.Size=UDim2.new(1,0,0,height or 40);f.BorderSizePixel=0;f.BackgroundColor3=theme().Surface2;f.Parent=parent;mark(f,"Surface2");corner(f,8);stroke(f);return f
+        local f=Instance.new("Frame");f.Size=UDim2.new(1,0,0,height or 40);f.BorderSizePixel=0;f.BackgroundColor3=theme().Surface2;f.Parent=parent;mark(f,"Surface2");corner(f,9);stroke(f,"BorderSoft",.18);gradient(f,"Surface2","Surface",90)
+        local inset=Instance.new("Frame");inset.Name="AccentEdge";inset.Size=UDim2.fromOffset(2,18);inset.Position=UDim2.fromOffset(0,11);inset.BackgroundColor3=theme().AccentSoft;inset.BorderSizePixel=0;inset.Parent=f;mark(inset,"AccentSoft");corner(inset,2)
+        return f
     end
     local function label(parent,text,size,role)
-        local l=Instance.new("TextLabel");l.BackgroundTransparency=1;l.Text=tostring(text or "");l.Font=Enum.Font.Gotham;l.TextSize=size or 12;l.TextWrapped=true;l.TextXAlignment=Enum.TextXAlignment.Left;l.TextYAlignment=Enum.TextYAlignment.Center;l.Size=UDim2.new(1,0,0,24);l.Parent=parent;mark(l,role or "Text");return l
+        local l=Instance.new("TextLabel");l.BackgroundTransparency=1;l.Text=tostring(text or "");l.Font=Enum.Font.Gotham;l.TextSize=size or 12;l.TextWrapped=true;l.TextTruncate=Enum.TextTruncate.AtEnd;l.TextXAlignment=Enum.TextXAlignment.Left;l.TextYAlignment=Enum.TextYAlignment.Center;l.Size=UDim2.new(1,0,0,24);l.Parent=parent;mark(l,role or "Text");return l
     end
     local function button(parent,text)
-        local b=Instance.new("TextButton");b.AutoButtonColor=false;b.Text=tostring(text or "");b.Font=Enum.Font.GothamMedium;b.TextSize=13;b.TextColor3=theme().Text;b.BorderSizePixel=0;b.BackgroundColor3=theme().Surface2;b.Parent=parent;mark(b,"Surface2");corner(b,7);return b
+        local b=Instance.new("TextButton");b.AutoButtonColor=false;b.Text=tostring(text or "");b.Font=Enum.Font.GothamMedium;b.TextSize=13;b.TextColor3=theme().TextStrong or theme().Text;b.BorderSizePixel=0;b.BackgroundColor3=theme().Surface2;b.Parent=parent;mark(b,"Surface2");corner(b,8);stroke(b,"BorderSoft",.2)
+        local scale=Instance.new("UIScale");scale.Scale=1;scale.Parent=b
+        local hover=false
+        b.MouseEnter:Connect(function()hover=true;tween(b,.1,{BackgroundColor3=theme().Surface3});tween(scale,.1,{Scale=1.008})end)
+        b.MouseLeave:Connect(function()hover=false;tween(b,.14,{BackgroundColor3=theme().Surface2});tween(scale,.12,{Scale=1})end)
+        b.MouseButton1Down:Connect(function()tween(b,.07,{BackgroundColor3=theme().AccentSoft});tween(scale,.07,{Scale=.975})end)
+        b.MouseButton1Up:Connect(function()tween(b,.1,{BackgroundColor3=hover and theme().Surface3 or theme().Surface2});tween(scale,.1,{Scale=1})end)
+        return b
     end
     local function track(section,conn) if section and section.Window and section.Window.Track then section.Window:Track(conn) end; return conn end
     local function call(fn,...) if type(fn)=="function" then task.spawn(fn,...) end end
@@ -33,7 +48,7 @@ return function(Cgode)
     end
     local function signal() return Cgode.StateManager:Signal() end
     local function addTitle(parent,name)
-        local l=label(parent,name,12,"Text");l.Position=UDim2.fromOffset(10,0);l.Size=UDim2.new(1,-20,0,28);return l
+        local l=label(parent,name,12,"TextStrong");l.Position=UDim2.fromOffset(12,0);l.Size=UDim2.new(1,-24,0,28);l.Font=Enum.Font.GothamBold;return l
     end
 
     local S={}
@@ -49,7 +64,7 @@ return function(Cgode)
     function S:createIconButton(icon,cb,opt) return self:createButton(icon,cb,opt) end
     function S:createToggle(name,default,cb)
         local f=frame(self.Content,42);addTitle(f,name);local b=button(f,"");b.Size=UDim2.fromOffset(46,24);b.Position=UDim2.new(1,-56,.5,-12);local v=default==true;local sig=signal();
-        local function render() b.Text=v and "✓" or ""; b.BackgroundColor3=v and theme().Accent or theme().Surface3 end;render()
+        local function render() b.Text=v and "✓" or ""; b.BackgroundColor3=v and theme().Accent or theme().Surface3 end;render(); self.Window:OnThemeRefresh(render)
         track(self,b.MouseButton1Click:Connect(function()v=not v;render();sig:Fire(v);call(cb,v)end));return valObj(function()return v end,function(_,z)v=not not z;render();sig:Fire(v);call(cb,v)end,function()f:Destroy()end,sig)
     end
     S.createCheckbox=S.createToggle
@@ -69,14 +84,14 @@ return function(Cgode)
         local function update(x) set(min+(max-min)*clamp((x-bar.AbsolutePosition.X)/math.max(bar.AbsoluteSize.X,1),0,1),true) end
         track(self,hit.InputBegan:Connect(function(i)if i.UserInputType==Enum.UserInputType.MouseButton1 or i.UserInputType==Enum.UserInputType.Touch then drag=true;update(i.Position.X)end end))
         track(self,UIS.InputChanged:Connect(function(i)if drag and (i.UserInputType==Enum.UserInputType.MouseMovement or i.UserInputType==Enum.UserInputType.Touch)then update(i.Position.X)end end))
-        track(self,UIS.InputEnded:Connect(function(i)if i.UserInputType==Enum.UserInputType.MouseButton1 or i.UserInputType==Enum.UserInputType.Touch then drag=false end end));set(v,false)
+        track(self,UIS.InputEnded:Connect(function(i)if i.UserInputType==Enum.UserInputType.MouseButton1 or i.UserInputType==Enum.UserInputType.Touch then drag=false end end));set(v,false); self.Window:OnThemeRefresh(function() value.Text=tostring(v); fill.BackgroundColor3=theme().Accent; bar.BackgroundColor3=theme().Border end)
         return valObj(function()return v end,function(_,z)set(tonumber(z) or min,true)end,function()f:Destroy()end,sig)
     end
     function S:createNumberInput(name,default,cb,o)
         o=o or {};local min=tonumber(o.min) or -math.huge;local max=tonumber(o.max) or math.huge;local step=tonumber(o.step) or 1;local current=tonumber(default) or min;if current==-math.huge then current=0 end
         local f=frame(self.Content,42);local x=Instance.new("TextBox");x.BackgroundTransparency=1;x.ClearTextOnFocus=false;x.Text=tostring(current);x.PlaceholderText=tostring(name or "Number");x.Font=Enum.Font.Gotham;x.TextSize=12;x.TextXAlignment=Enum.TextXAlignment.Left;x.Size=UDim2.new(1,-20,1,0);x.Position=UDim2.fromOffset(10,0);x.Parent=f;mark(x,"Text");local sig=signal()
         local function set(v,fire) v=round(clamp(tonumber(v) or current,min,max),step);current=v;x.Text=tostring(v);if fire then sig:Fire(v);call(cb,v)end end
-        track(self,x.FocusLost:Connect(function()set(x.Text,true)end));return valObj(function()return current end,function(_,v)set(v,true)end,function()f:Destroy()end,sig)
+        track(self,x.Focused:Connect(function() local st=f:FindFirstChild("CgodeStroke"); if st then tween(st,.12,{Color=theme().Accent,Transparency=0}) end end));track(self,x.FocusLost:Connect(function() local st=f:FindFirstChild("CgodeStroke"); if st then tween(st,.16,{Color=theme().BorderSoft,Transparency=.18}) end;set(x.Text,true)end));return valObj(function()return current end,function(_,v)set(v,true)end,function()f:Destroy()end,sig)
     end
     function S:createTextBox(name,default,cb)
         local f=frame(self.Content,42)
@@ -84,7 +99,7 @@ return function(Cgode)
         x.BackgroundTransparency=1;x.ClearTextOnFocus=false;x.Text=tostring(default or "");x.PlaceholderText=tostring(name or "Text")
         x.Font=Enum.Font.Gotham;x.TextSize=12;x.TextXAlignment=Enum.TextXAlignment.Left;x.Size=UDim2.new(1,-20,1,0);x.Position=UDim2.fromOffset(10,0);x.Parent=f;mark(x,"Text")
         local sig=signal()
-        track(self,x.FocusLost:Connect(function()sig:Fire(x.Text);call(cb,x.Text)end))
+        track(self,x.Focused:Connect(function() local st=f:FindFirstChild("CgodeStroke"); if st then tween(st,.12,{Color=theme().Accent,Transparency=0}) end end));track(self,x.FocusLost:Connect(function() local st=f:FindFirstChild("CgodeStroke"); if st then tween(st,.16,{Color=theme().BorderSoft,Transparency=.18}) end;sig:Fire(x.Text);call(cb,x.Text)end))
         local o=valObj(function()return x.Text end,function(_,v)x.Text=tostring(v);sig:Fire(x.Text);call(cb,x.Text)end,function()f:Destroy()end,sig)
         o.getText=o.Get;o.GetText=o.Get;o.setText=o.Set;o.SetText=o.Set
         o.clearText=function()x.Text="";sig:Fire(x.Text);call(cb,x.Text)end;o.ClearText=o.clearText
@@ -107,7 +122,7 @@ return function(Cgode)
         track(self,b.MouseButton1Click:Connect(function()listening=true;b.Text=name..": Press key..."end));track(self,UIS.InputBegan:Connect(function(i,g)if g then return end;if listening and i.KeyCode~=Enum.KeyCode.Unknown then key=i.KeyCode;listening=false;render();sig:Fire(key);call(cb,key);elseif not listening and i.KeyCode==key then call(cb,key) end end));return valObj(function()return key end,function(_,v)key=v;render();sig:Fire(key)end,function()f:Destroy()end,sig)
     end
     function S:createColorPicker(name,default,cb)
-        local palette={Color3.fromRGB(92,136,255),Color3.fromRGB(71,205,131),Color3.fromRGB(235,91,91),Color3.fromRGB(241,181,77),Color3.fromRGB(190,100,240),Color3.fromRGB(86,173,239)};local index=1;local current=default or palette[1];local f=frame(self.Content,42);local b=button(f,name);b.Size=UDim2.new(1,-10,1,-10);b.Position=UDim2.fromOffset(5,5);local sig=signal();b.BackgroundColor3=current;track(self,b.MouseButton1Click:Connect(function()index=index%#palette+1;current=palette[index];b.BackgroundColor3=current;sig:Fire(current);call(cb,current)end));return valObj(function()return current end,function(_,v)current=v;b.BackgroundColor3=v;sig:Fire(v);call(cb,v)end,function()f:Destroy()end,sig)
+        local palette={Color3.fromRGB(92,136,255),Color3.fromRGB(71,205,131),Color3.fromRGB(235,91,91),Color3.fromRGB(241,181,77),Color3.fromRGB(190,100,240),Color3.fromRGB(86,173,239)};local index=1;local current=default or palette[1];local f=frame(self.Content,42);local b=button(f,name);b.Size=UDim2.new(1,-10,1,-10);b.Position=UDim2.fromOffset(5,5);local sig=signal();b.BackgroundColor3=current;self.Window:OnThemeRefresh(function()b.BackgroundColor3=current end);track(self,b.MouseButton1Click:Connect(function()index=index%#palette+1;current=palette[index];b.BackgroundColor3=current;sig:Fire(current);call(cb,current)end));return valObj(function()return current end,function(_,v)current=v;b.BackgroundColor3=v;sig:Fire(v);call(cb,v)end,function()f:Destroy()end,sig)
     end
     function S:createBadge(text,role)
         local b=Instance.new("TextLabel");b.BackgroundColor3=theme().Accent;b.TextColor3=theme().Text;b.Font=Enum.Font.GothamMedium;b.TextSize=11;b.Size=UDim2.fromOffset(70,24);b.Text=tostring(text or "Badge");b.Parent=self.Content;mark(b,role or "Accent");corner(b,12);return b
@@ -205,7 +220,7 @@ return function(Cgode)
     S.createSpinner=S.createLoading
     function S:createSkeleton(text) return self:createText("░░░  "..tostring(text or "Loading placeholder")) end
     function S:createProgress(value,labelText)
-        local f=frame(self.Content,52);local l=addTitle(f,labelText or "Progress");local bar=Instance.new("Frame");bar.Position=UDim2.fromOffset(10,34);bar.Size=UDim2.new(1,-20,0,7);bar.BackgroundColor3=theme().Border;bar.BorderSizePixel=0;bar.Parent=f;mark(bar,"Border");corner(bar,4);local fill=Instance.new("Frame");fill.BackgroundColor3=theme().Accent;fill.BorderSizePixel=0;fill.Parent=bar;mark(fill,"Accent");corner(fill,4);local v=clamp(tonumber(value) or 0,0,1);fill.Size=UDim2.new(v,0,1,0);return {Get=function()return v end,Set=function(_,x)v=clamp(tonumber(x) or 0,0,1);fill.Size=UDim2.new(v,0,1,0)end,Destroy=function()f:Destroy()end}
+        local f=frame(self.Content,52);local l=addTitle(f,labelText or "Progress");local bar=Instance.new("Frame");bar.Position=UDim2.fromOffset(10,34);bar.Size=UDim2.new(1,-20,0,7);bar.BackgroundColor3=theme().Border;bar.BorderSizePixel=0;bar.Parent=f;mark(bar,"Border");corner(bar,4);local fill=Instance.new("Frame");fill.BackgroundColor3=theme().Accent;fill.BorderSizePixel=0;fill.Parent=bar;mark(fill,"Accent");corner(fill,4);local v=clamp(tonumber(value) or 0,0,1);fill.Size=UDim2.new(v,0,1,0);self.Window:OnThemeRefresh(function()fill.BackgroundColor3=theme().Accent;bar.BackgroundColor3=theme().Border end);return {Get=function()return v end,Set=function(_,x)v=clamp(tonumber(x) or 0,0,1);fill.Size=UDim2.new(v,0,1,0)end,Destroy=function()f:Destroy()end}
     end
     function S:createNotification(title,message,duration,kind) return self.Window:notification(title,message,duration,kind) end
     S.createToast=S.createNotification

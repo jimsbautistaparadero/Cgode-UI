@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.1.0 — Visual Polish
+- Reworked window shell, header, sidebar, tabs, sections, dialogs, notifications, and context surfaces for a more polished hierarchy.
+- Added layered depth, gradients, accent glow, status pills, active navigation indicators, badges, and page descriptions.
+- Added animated hover/press states and responsive UI density.
+- Added theme roles for stronger text, soft borders, deeper surfaces, and stronger accents.
+- Added visual `SetSubtitle`, `SetStatus`, `ApplyResponsive`, and `OnThemeRefresh` hooks.
+- Scope intentionally limited to UI presentation and interaction feel.
+
+
 ## 4.0.0
 
 - Rebuilt the modular core around a real public API.

@@ -1,4 +1,4 @@
-# Cgode UI API 4.0
+# Cgode UI API 4.1
 
 **Canonical source:** `https://raw.githubusercontent.com/jimsbautistaparadero/Cgode-UI/main/init.lua`
 
@@ -24,6 +24,41 @@ local Cgode = loadstring(game:HttpGet(
 - `Cgode:CreateState(key, initial)` / `GetState` / `SetState`
 - `Cgode:SaveConfig(name, data)` / `LoadConfig(name, defaults)`
 - `Cgode:IsAvailable(name)` / `GetComponent(name)`
+
+## Visual window options
+
+`CreateWindow` accepts presentation options alongside the existing sizing/behavior options:
+
+| Option | Purpose |
+| --- | --- |
+| `Icon` | Header brand glyph |
+| `Subtitle` | Secondary header label |
+| `StatusText` | Header status pill text |
+| `SidebarHeader` | Sidebar section caption |
+| `SidebarFooter` | Sidebar footer caption |
+| `SidebarWidth` | Base navigation width |
+| `HeaderHeight` | Header height |
+| `CornerRadius` | Window corner radius |
+| `Responsive` | Enable responsive density/fit |
+| `ShowSidebar` | Hide the navigation rail when false |
+| `TitleSize` | Header title size |
+
+### Window visual methods
+
+- `SetTitle(value)`
+- `SetSubtitle(value)`
+- `SetStatus(text, kind)` where `kind` is `Success`, `Warning`, `Danger`, or `Info`
+- `ApplyResponsive()`
+- `OnThemeRefresh(callback)` for custom visual re-rendering
+- `RefreshTheme()`
+
+### Tab presentation options
+
+`CreateTab(name, options)` supports `Icon`, `Badge`, `Description`, `Title`, `Height`, and `ActiveGradient`.
+
+### Section presentation options
+
+`CreateSection(name, collapsed, options)` supports `Description` and `CornerRadius`.
 
 ## Window
 

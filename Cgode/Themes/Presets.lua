@@ -1,1 +1,3 @@
-return function(Cgode) return Cgode.ThemeManager.Presets end
+return function(Cgode)
+    return Cgode.ThemeManager.Presets
+end

@@ -1,4 +1,4 @@
-# Cgode UI Guide
+# Cgode UI 4.1 Guide
 
 Canonical loader/source:
 
@@ -37,6 +37,36 @@ amount:OnChanged(function(v)
     state:Get().amount = v
 end)
 ```
+
+## Visual-first windows
+
+Use the presentation options to build a cleaner dashboard without touching the underlying state/config architecture.
+
+```lua
+local window = UI:CreateWindow("Dashboard", "Dashboard", true, {
+    Icon = "✦",
+    Subtitle = "LIVE CONSOLE",
+    StatusText = "READY",
+    SidebarHeader = "WORKSPACE",
+    SidebarFooter = "v4.1 • polished",
+    Responsive = true,
+})
+
+local home = window:CreateTab("Home", {
+    Icon = "⌂",
+    Badge = "NEW",
+    Description = "Primary controls and status.",
+})
+
+local section = home:CreateSection("Quick Controls", false, {
+    Description = "Frequently used actions",
+})
+section:CreateButton("Run", function()
+    print("run")
+end)
+```
+
+Buttons, tabs, sections, text inputs, dialogs, toasts, progress bars, and feedback components automatically inherit the active theme and visual interaction states.
 
 ## Themes
 
