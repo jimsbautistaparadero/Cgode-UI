@@ -1,2 +1,3 @@
-local Component=require(script.Parent.Parent.Base.Component)
-return function(ctx,ratio) local f=Instance.new("Frame",ctx.Parent);f.Name="SplitPane";f.Size=UDim2.new(1,0,1,0);f.BackgroundTransparency=1;local a=Instance.new("Frame",f);a.Size=UDim2.new(ratio or .5,-4,1,0);a.BackgroundColor3=ctx.Theme:Get("Surface");a.BorderSizePixel=0;local b=Instance.new("Frame",f);b.Position=UDim2.new(ratio or .5,4,0,0);b.Size=UDim2.new(1-(ratio or .5),-4,1,0);b.BackgroundColor3=ctx.Theme:Get("Surface");b.BorderSizePixel=0;return Component.new(f,ctx) end
+return function(Cgode)
+    return {Name="SplitPane",Group="Layout",Supported=true}
+end

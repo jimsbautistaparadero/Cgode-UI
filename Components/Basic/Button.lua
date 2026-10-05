@@ -1,3 +1,3 @@
-local Control=require(script.Parent.Parent.Base.Control)
-local function make(ctx,text,callback) local b=Instance.new("TextButton"); b.Name="Button"; b.Size=UDim2.new(1,0,0,36); b.BackgroundColor3=ctx.Theme:Get("SurfaceAlt"); b.TextColor3=ctx.Theme:Get("Text"); b.Font=Enum.Font.GothamMedium; b.TextSize=14; b.Text=text or "Button"; b.AutoButtonColor=false; b.Parent=ctx.Parent; local r=Instance.new("UICorner",b); r.CornerRadius=UDim.new(0,10); ctx.Input:BindPress(b,function() if callback then callback() end end); ctx.Input:BindHover(b,function() ctx.Anim:Tween(b,{BackgroundColor3=ctx.Theme:Get("AccentSoft")},.12) end,function() ctx.Anim:Tween(b,{BackgroundColor3=ctx.Theme:Get("SurfaceAlt")},.12) end); local c=Control.new(b,ctx,nil); c.Callback=callback; c.Activate=function() if callback then callback() end end; return c end
-return make
+return function(Cgode)
+    return Cgode._fetch("Core/Controls.lua")(Cgode).createButton(nil)
+end

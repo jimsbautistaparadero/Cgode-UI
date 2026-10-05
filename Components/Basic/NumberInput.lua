@@ -1,1 +1,3 @@
-return function(ctx,placeholder,default,min,max,callback) local n=require(script.Parent.Textbox)(ctx,placeholder,tostring(default or 0)); n:SetValue(tonumber(default) or 0,true); n:OnChanged(function(v) local x=tonumber(v); if x and (min==nil or x>=min) and (max==nil or x<=max) then if callback then callback(x) end end end); return n end
+return function(Cgode)
+    return {Name="NumberInput",Supported=true}
+end

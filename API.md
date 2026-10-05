@@ -1,27 +1,35 @@
 # Cgode UI API
 
-## Root
-`CgodeUI:CreateWindow(options)`
-`CgodeUI:CreateConfig(namespace, defaults)`
-`CgodeUI:LoadTheme(name)`
-`CgodeUI:DestroyAll()`
+## Public loader
+`Cgode/init.lua`
+
+## Factory
+- `createWindow(title, name, draggable, options)`
+- `CreateWindow`
+- `CreateMain`
 
 ## Window
-`CreateTab(name, icon)`
-`Minimize()` / `Maximize()` / `Restore()` / `Center()` / `Destroy()`
-`SetResponsiveMode(breakpoint)` / `SetTheme(theme)` / `Notify(options)`
+- `createTab(name)`
+- `CreateTab`
+- `notification(title, message, duration)`
+- `Notify`
+- `SelectTab`
+- `SetTheme`
+- `Destroy`
 
-## Controls
-Button, Toggle/Switch, Checkbox, Radio, Slider, RangeSlider, Dropdown, MultiDropdown, Textbox, NumberInput, Keybind, ColorPicker, Label, Paragraph, Divider, Spacer, IconButton, ImageButton, Badge, Status, SearchBox, ComboBox, SegmentedControl, TagInput, Stepper, XYPad, DatePicker, TimePicker, TreeView, Accordion.
+## Section
+- `createText`
+- `createButton`
+- `createToggle`
+- `createSlider`
+- `createDropdown`
+- `createTextBox`
+- `createKeyBind`
+- `createColorPicker`
 
-## Layout
-Container, Panel, Card, Stack, Row, Column, Grid, ResponsiveGrid, SplitPane, ScrollContainer, Overlay.
+Slider options support `min`, `max`, `default`, legacy `defualt`, `precise`, and `step`.
 
-## Data and feedback
-List, VirtualList, Table, DataGrid, Timeline, ActivityFeed, Statistics, Chart, LineChart, BarChart, Notification, Toast, Dialog, ConfirmDialog, Alert, Loading, Progress, ProgressBar, Spinner, CircularProgress, Skeleton, Tooltip, EmptyState, ErrorState.
+TextBox returns `getText`, `GetText`, `setText`, `SetText`, `clearText`, and `ClearText`.
 
-## Foundation
-ThemeManager, AnimationManager, InputManager, StateManager, DeviceManager, LayoutManager, WindowManager, NavigationManager, EventManager, InstanceManager, ConfigManager, Maid, Signal, Validator, Draggable, Resizable.
-
-## Supported behaviors
-Responsive breakpoints, mobile drawer behavior, safe-area-aware placement, touch/mouse dragging, keyboard keybinds, controller detection, resize handles, window state, navigation history, reduced motion, cleanup ownership, theme presets, configuration JSON export/import, and adaptive viewport handling.
+## Design
+The repository is modular. The public API is intentionally simple and resembles the AquaLib-style usage pattern: load one entry point, call the library, create controls, and render.

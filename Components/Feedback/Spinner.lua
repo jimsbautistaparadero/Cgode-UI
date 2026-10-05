@@ -1,2 +1,3 @@
-local Component=require(script.Parent.Parent.Base.Component)
-return function(ctx,size) local i=Instance.new("Frame",ctx.Parent);i.Name="Spinner";i.Size=UDim2.fromOffset(size or 22,size or 22);i.BackgroundTransparency=1;local stroke=Instance.new("UIStroke",i);stroke.Color=ctx.Theme:Get("Accent");stroke.Thickness=3;stroke.Transparency=.25;Instance.new("UICorner",i).CornerRadius=UDim.new(1,0);local running=true;local c=Component.new(i,ctx);task.spawn(function()while running and i.Parent do i.Rotation=(i.Rotation+9)%360;task.wait(.02)end end);local oldDestroy=c.Destroy;c.Destroy=function(self) running=false;oldDestroy(self) end;return c end
+return function(Cgode)
+    return {Name="Spinner",Group="Feedback",Supported=true}
+end

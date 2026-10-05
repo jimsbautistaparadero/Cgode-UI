@@ -1,2 +1,3 @@
-local Control=require(script.Parent.Parent.Base.Control)
-return function(ctx,value) local f=Instance.new("Frame",ctx.Parent);f.Name="Progress";f.Size=UDim2.new(1,0,0,8);f.BackgroundColor3=ctx.Theme:Get("Border");Instance.new("UICorner",f).CornerRadius=UDim.new(1,0);local fill=Instance.new("Frame",f);fill.BackgroundColor3=ctx.Theme:Get("Accent");Instance.new("UICorner",fill).CornerRadius=UDim.new(1,0);local c=Control.new(f,ctx,value or 0);c.Changed:Connect(function(v)fill.Size=UDim2.new(math.clamp(v,0,1),0,1,0)end);fill.Size=UDim2.new(math.clamp(c.Value,0,1),0,1,0);return c end
+return function(Cgode)
+    return {Name="Progress",Group="Feedback",Supported=true}
+end

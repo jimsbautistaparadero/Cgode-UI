@@ -1,1 +1,3 @@
-return function(ctx,headers,rows) local f=require(script.Parent.Parent.Layout.Container)(ctx,UDim2.new(1,0,0,180));local y=0;for _,row in ipairs({headers,table.unpack(rows or {})})do y+=1;local l=Instance.new("TextLabel",f.Instance);l.Position=UDim2.new(0,8,0,(y-1)*30);l.Size=UDim2.new(1,-16,0,28);l.BackgroundColor3=ctx.Theme:Get("SurfaceAlt");l.Text=table.concat(row,"   |   ");l.TextColor3=ctx.Theme:Get("Text");l.Font=Enum.Font.Gotham;l.TextSize=12;Instance.new("UICorner",l).CornerRadius=UDim.new(0,6)end;return f end
+return function(Cgode)
+    return {Name="Table",Group="DataDisplay",Supported=true}
+end

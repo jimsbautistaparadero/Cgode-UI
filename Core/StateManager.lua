@@ -1,9 +1,16 @@
-local Signal=require(script.Parent.Parent.Utils.Signal)
-local State={}; State.__index=State
-function State.new(initial) local self=setmetatable({Values=initial or {},Signals={}},State); return self end
-function State:Get(k) return self.Values[k] end
-function State:Set(k,v) local old=self.Values[k]; if old==v then return end; self.Values[k]=v; if self.Signals[k] then self.Signals[k]:Fire(v,old) end end
-function State:Bind(k,fn) if not self.Signals[k] then self.Signals[k]=Signal.new() end; fn(self.Values[k]); return self.Signals[k]:Connect(fn) end
-function State:Observe(k) if not self.Signals[k] then self.Signals[k]=Signal.new() end; return self.Signals[k] end
-function State:Destroy() for _,s in pairs(self.Signals) do s:Destroy() end end
-return State
+return function(Cgode)
+    local M={Stores={}}
+    function M:Create(initial)
+        local state=table.clone(initial or {});local listeners={}
+        local obj={}
+        function obj:Get(k)return state[k]end
+        function obj:Set(k,v)state[k]=v;for _,fn in ipairs(listeners[k] or {}) do task.spawn(fn,v)end end
+        function obj:Bind(k,fn)
+            listeners[k]=listeners[k] or {};table.insert(listeners[k],fn);fn(state[k])
+            return function()for i,x in ipairs(listeners[k])do if x==fn then table.remove(listeners[k],i)break end end end
+        end
+        function obj:Snapshot()return table.clone(state)end
+        return obj
+    end
+    return M
+end

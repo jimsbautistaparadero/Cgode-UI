@@ -1,1 +1,3 @@
-return {Name="Desktop",Touch=false,Mouse=true,Keyboard=true,Gamepad=true,Hover=true,Resizable=true,MultiWindow=true}
+return function(Cgode)
+    return {Name="Desktop",Active=function() return Cgode:GetDevice()=="Desktop" end}
+end

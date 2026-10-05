@@ -1,1 +1,3 @@
-return function(ctx,padding) return require(script.Parent.Stack)(ctx,Enum.FillDirection.Vertical,padding) end
+return function(Cgode)
+    return {Name="Column",Group="Layout",Supported=true}
+end

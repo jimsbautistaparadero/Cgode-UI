@@ -1,1 +1,3 @@
-return function(ctx,columns,cellSize) local f=require(script.Parent.Container)(ctx,UDim2.new(1,0,0,0));local g=Instance.new("UIGridLayout",f.Instance);g.CellPadding=UDim2.fromOffset(8,8);g.CellSize=cellSize or UDim2.fromOffset(140,70);g.FillDirectionMaxCells=columns or 2;return f end
+return function(Cgode)
+    return {Name="Grid",Group="Layout",Supported=true}
+end

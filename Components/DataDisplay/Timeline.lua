@@ -1,2 +1,3 @@
-local Component=require(script.Parent.Parent.Base.Component)
-return function(ctx,events) local s=require(script.Parent.Parent.Layout.ScrollContainer)(ctx,UDim2.new(1,0,0,220));for _,e in ipairs(events or {})do local l=Instance.new("TextLabel",s.Instance);l.Size=UDim2.new(1,0,0,48);l.BackgroundTransparency=1;l.Text=tostring(e.Time or "").."  "..tostring(e.Text or e[1] or "");l.TextColor3=ctx.Theme:Get("Text");l.Font=Enum.Font.Gotham;l.TextSize=13;l.TextXAlignment=Enum.TextXAlignment.Left;end;return Component.new(s.Instance,ctx) end
+return function(Cgode)
+    return {Name="Timeline",Group="DataDisplay",Supported=true}
+end

@@ -1,1 +1,3 @@
-local UIS=game:GetService("UserInputService"); return require(script.Parent:FindFirstChild(UIS.MouseEnabled and "Light" or "Dark"))
+return function(Cgode)
+    return Cgode.ThemeManager and Cgode.ThemeManager.Presets or {}
+end

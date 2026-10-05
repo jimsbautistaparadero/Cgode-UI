@@ -1,2 +1,3 @@
-local Control=require(script.Parent.Parent.Base.Control)
-return function(ctx,options,default,callback) local f=Instance.new("Frame",ctx.Parent);f.Name="SegmentedControl";f.Size=UDim2.new(1,0,0,38);f.BackgroundColor3=ctx.Theme:Get("SurfaceAlt");Instance.new("UICorner",f).CornerRadius=UDim.new(0,10);local lay=Instance.new("UIListLayout",f);lay.FillDirection=Enum.FillDirection.Horizontal;lay.HorizontalAlignment=Enum.HorizontalAlignment.Center;lay.SortOrder=Enum.SortOrder.LayoutOrder;local c=Control.new(f,ctx,default or options and options[1]);for i,opt in ipairs(options or {})do local b=Instance.new("TextButton",f);b.Size=UDim2.new(1/math.max(1,#options),-2,1,-4);b.BackgroundTransparency=1;b.Text=tostring(opt);b.Font=Enum.Font.GothamMedium;b.TextSize=13;b.TextColor3=ctx.Theme:Get("Muted");b.LayoutOrder=i;ctx.Input:BindPress(b,function()c:SetValue(opt);if callback then callback(opt)end end)end;return c end
+return function(Cgode)
+    return {Name="SegmentedControl",Group="Advanced",Supported=true}
+end

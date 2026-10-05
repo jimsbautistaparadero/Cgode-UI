@@ -1,1 +1,0 @@
-return {Menu="rbxassetid://6031280882",Close="rbxassetid://6031094678",Search="rbxassetid://6031154871",Settings="rbxassetid://6031280882",Chevron="rbxassetid://6031091004",Check="rbxassetid://6031094667"}

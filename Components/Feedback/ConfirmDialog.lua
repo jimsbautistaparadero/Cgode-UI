@@ -1,1 +1,3 @@
-return require(script.Parent.Dialog)
+return function(Cgode)
+    return {Name="ConfirmDialog",Group="Feedback",Supported=true}
+end

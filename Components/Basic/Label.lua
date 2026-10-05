@@ -1,2 +1,3 @@
-local Component=require(script.Parent.Parent.Base.Component)
-return function(ctx,... ) local args={...}; local i; if "Label"=="Divider" then i=Instance.new("Frame",ctx.Parent);i.Size=UDim2.new(1,0,0,1);i.BackgroundColor3=ctx.Theme:Get("Border") elseif "Label"=="Spacer" then i=Instance.new("Frame",ctx.Parent);i.Size=UDim2.new(1,0,0,args[1] or 8);i.BackgroundTransparency=1 else i=Instance.new("TextLabel",ctx.Parent);i.Name="Label";i.Size=UDim2.new(1,0,0,args[2] or 30);i.BackgroundTransparency=1;i.Text=tostring(args[1] or "");i.TextColor3=ctx.Theme:Get("Text");i.Font=Enum.Font.Gotham;i.TextSize=("Label"=="Paragraph" and 13 or 14);i.TextWrapped=("Label"=="Paragraph");i.TextXAlignment=Enum.TextXAlignment.Left end;return Component.new(i,ctx) end
+return function(Cgode)
+    return {Name="Label",Supported=true}
+end

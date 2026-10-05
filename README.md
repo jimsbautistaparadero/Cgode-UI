@@ -1,23 +1,93 @@
-# Cgode UI
+# Cgode UI 3.1 Modular
 
-Cgode UI is a modular Roblox Luau UI framework built for mobile, tablet, desktop, touch, keyboard, mouse and gamepad environments.
+Cgode UI is **modular internally** but has a **single public loader**.
 
-## Highlights
-- Light and dark themes with runtime switching
-- Responsive Compact/Small/Medium/Large/Wide/Ultrawide modes
-- Touch, mouse, keyboard and gamepad-aware foundation
-- Central state, input, animation, theme and cleanup systems
-- Window drag, minimize, maximize, center and responsive layout
-- Tabs, sections, controls, layouts, feedback and data display components
-- Configuration export/import/reset
-- Existing-style API: `CreateWindow`, `CreateTab`, `AddSection`, `AddButton`, `AddToggle`, `AddSlider`, `AddDropdown`, `AddTextbox`, etc.
+The user experience is exactly:
 
-## Studio installation
-Create a Folder named `CgodeUI` inside `ReplicatedStorage` and copy the included folder contents into it. The root ModuleScript is `CgodeUI.lua`.
+`load -> use -> render`
 
-A Rojo project descriptor is included for developers who prefer Rojo.
+## Load
 
-## Example
-See `CgodeUI/Examples/Basic.client.lua`.
+```lua
+local lib = loadstring(game:HttpGet(
+    "https://raw.githubusercontent.com/jimsbautistaparadero/Cgode-UI/main/Cgode/init.lua"
+))()
+```
 
-This package is source-first. Roblox Studio remains responsible for creating ModuleScripts from these `.lua` files.
+The loader fetches the internal modules from the repository and returns the public `Cgode` facade.
+
+## Use
+
+```lua
+local window = lib.createWindow("This Is A Window", "TestWindow", true)
+
+local tab = window.createTab("Main")
+local section = tab.createSection("Test Section", false)
+
+section.createText("Hello World")
+
+section.createButton("Test Button", function()
+    print("Button Pressed!")
+end)
+
+section.createToggle("Test Toggle", false, function(value)
+    print(value)
+end)
+
+section.createSlider("Test Slider", {
+    default = 50,
+    min = 1,
+    max = 100,
+    precise = true,
+    step = 0.1
+}, function(value)
+    print(value)
+end)
+
+local textbox = section.createTextBox("Test TextBox", "Test", function(value)
+    print(value)
+end)
+
+section.createDropdown(
+    "Test Dropdown",
+    {"Option 1","Option 2","Option 3"},
+    "Option 1",
+    function(value)
+        print(value)
+    end
+)
+
+section.createKeyBind("KeyBind", Enum.KeyCode.K, function()
+    print("Key pressed")
+end)
+
+window.notification("Cgode UI", "Loaded!")
+```
+
+## Architecture
+
+```text
+Cgode/
+├── init.lua
+├── Core/
+│   ├── Cgode.lua
+│   ├── WindowManager.lua
+│   ├── Controls.lua
+│   ├── ThemeManager.lua
+│   ├── AnimationManager.lua
+│   ├── InputManager.lua
+│   ├── StateManager.lua
+│   ├── DeviceManager.lua
+│   └── ConfigManager.lua
+├── Components/
+│   ├── Basic/
+│   ├── Advanced/
+│   ├── Feedback/
+│   ├── DataDisplay/
+│   └── Layout/
+├── Platforms/
+├── Themes/
+└── Utils/
+```
+
+`Cgode/init.lua` is the public entry point. The consumer never has to know the internal module layout.

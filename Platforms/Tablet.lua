@@ -1,1 +1,3 @@
-return {Name="Tablet",Touch=true,Mouse=true,Keyboard=true,Gamepad=false,BottomNavigation=false,SafeArea=true}
+return function(Cgode)
+    return {Name="Tablet",Active=function() return Cgode:GetDevice()=="Tablet" end}
+end

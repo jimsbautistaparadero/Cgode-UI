@@ -1,1 +1,3 @@
-return {Light=require(script.Parent.Light),Dark=require(script.Parent.Dark)}
+return function(Cgode)
+    return Cgode.ThemeManager and Cgode.ThemeManager.Presets or {}
+end

@@ -1,1 +1,3 @@
-return function(ctx,direction,padding) local f=require(script.Parent.Container)(ctx,UDim2.new(1,0,0,0));local l=Instance.new("UIListLayout",f.Instance);l.FillDirection=direction or Enum.FillDirection.Vertical;l.Padding=UDim.new(0,padding or 8);l.SortOrder=Enum.SortOrder.LayoutOrder;return f end
+return function(Cgode)
+    return {Name="Stack",Group="Layout",Supported=true}
+end

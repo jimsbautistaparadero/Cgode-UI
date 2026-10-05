@@ -1,1 +1,3 @@
-return function(ctx) return require(script.Parent.Grid)(ctx,2,UDim2.fromOffset(140,70)) end
+return function(Cgode)
+    return {Name="ResponsiveGrid",Group="Layout",Supported=true}
+end

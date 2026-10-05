@@ -1,2 +1,0 @@
-local Component=require(script.Parent.Parent.Base.Component)
-return function(ctx,markdown) local l=Instance.new("TextLabel",ctx.Parent);l.Name="MarkdownViewer";l.Size=UDim2.new(1,0,0,180);l.BackgroundTransparency=1;l.Text=tostring(markdown or "");l.TextColor3=ctx.Theme:Get("Text");l.Font=Enum.Font.Gotham;l.TextSize=13;l.TextWrapped=true;l.TextXAlignment=Enum.TextXAlignment.Left;l.TextYAlignment=Enum.TextYAlignment.Top;return Component.new(l,ctx) end

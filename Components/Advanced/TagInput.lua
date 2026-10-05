@@ -1,2 +1,3 @@
-local Control=require(script.Parent.Parent.Base.Control)
-return function(ctx,placeholder,callback) local f=Instance.new("Frame",ctx.Parent);f.Name="TagInput";f.Size=UDim2.new(1,0,0,58);f.BackgroundColor3=ctx.Theme:Get("SurfaceAlt");Instance.new("UICorner",f).CornerRadius=UDim.new(0,10);local box=Instance.new("TextBox",f);box.Size=UDim2.new(1,-12,0,34);box.Position=UDim2.fromOffset(6,6);box.BackgroundTransparency=1;box.PlaceholderText=placeholder or "Type and press Enter";box.TextColor3=ctx.Theme:Get("Text");box.PlaceholderColor3=ctx.Theme:Get("Muted");box.ClearTextOnFocus=false;box.Font=Enum.Font.Gotham;box.TextSize=13;local c=Control.new(f,ctx,{});ctx.Maid:Give(box.FocusLost:Connect(function(enter)if enter and box.Text~="" then table.insert(c.Value,box.Text);c:SetValue(table.clone(c.Value));if callback then callback(box.Text,c.Value)end;box.Text=""end end));return c end
+return function(Cgode)
+    return {Name="TagInput",Group="Advanced",Supported=true}
+end

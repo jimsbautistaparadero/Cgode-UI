@@ -1,2 +1,3 @@
-local Component=require(script.Parent.Parent.Base.Component)
-return function(ctx,items) local f=Instance.new("Frame",ctx.Overlay);f.Name="ContextMenu";f.Size=UDim2.fromOffset(180,10);f.BackgroundColor3=ctx.Theme:Get("Surface");f.Visible=false;f.ZIndex=600;Instance.new("UICorner",f).CornerRadius=UDim.new(0,10);local lay=Instance.new("UIListLayout",f);lay.Padding=UDim.new(0,3);for _,item in ipairs(items or {})do local b=Instance.new("TextButton",f);b.Size=UDim2.new(1,-8,0,30);b.BackgroundColor3=ctx.Theme:Get("SurfaceAlt");b.Text=item.Name or item[1];b.TextColor3=ctx.Theme:Get("Text");b.Font=Enum.Font.Gotham;b.TextSize=13;Instance.new("UICorner",b).CornerRadius=UDim.new(0,7);ctx.Input:BindPress(b,function()if item.Callback then item.Callback() elseif item[2] then item[2]() end;f.Visible=false end)end;return Component.new(f,ctx) end
+return function(Cgode)
+    return {Name="ContextMenu",Group="Advanced",Supported=true}
+end

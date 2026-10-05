@@ -1,1 +1,3 @@
-return function(ctx,items,render) return require(script.Parent.List)(ctx,items,render) end
+return function(Cgode)
+    return {Name="VirtualList",Group="DataDisplay",Supported=true}
+end

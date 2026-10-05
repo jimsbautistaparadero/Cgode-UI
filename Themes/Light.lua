@@ -1,1 +1,3 @@
-return {Name="Light",Colors={Background=Color3.fromRGB(246,248,252),Surface=Color3.fromRGB(255,255,255),SurfaceAlt=Color3.fromRGB(239,243,248),Text=Color3.fromRGB(28,31,36),Muted=Color3.fromRGB(105,112,122),Accent=Color3.fromRGB(74,108,255),AccentSoft=Color3.fromRGB(229,234,255),Border=Color3.fromRGB(218,223,231),Success=Color3.fromRGB(34,160,92),Warning=Color3.fromRGB(214,148,38),Danger=Color3.fromRGB(214,76,76),Overlay=Color3.fromRGB(20,24,32)}}
+return function(Cgode)
+    return Cgode.ThemeManager and Cgode.ThemeManager.Presets or {}
+end
