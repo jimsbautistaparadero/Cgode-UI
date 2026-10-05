@@ -1,6 +1,6 @@
 -- Cgode UI public loader / facade
 -- The repository stays modular. This file is the only URL users need.
-local BASE = "https://raw.githubusercontent.com/jimsbautistaparadero/Cgode-UI/main/Cgode/"
+local BASE = "https://raw.githubusercontent.com/YOUR_USERNAME/Cgode-UI/main/Cgode/"
 
 local function fetch(path)
     local src = game:HttpGet(BASE .. path)
