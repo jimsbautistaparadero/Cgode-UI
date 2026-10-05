@@ -4,6 +4,7 @@ Cgode UI is **modular internally** but has a **single public loader**.
 
 The user experience is exactly:
 
+<<<<<<< HEAD
 `load -> use -> render`
 
 ## Load
@@ -13,6 +14,10 @@ local lib = loadstring(game:HttpGet(
     "https://raw.githubusercontent.com/jimsbautistaparadero/Cgode-UI/main/Cgode/init.lua"
 ))()
 ```
+=======
+## Example
+See `CgodeUI/Examples/Basic.client.lua`.
+>>>>>>> FETCH_HEAD
 
 The loader fetches the internal modules from the repository and returns the public `Cgode` facade.
 
