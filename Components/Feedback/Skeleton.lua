@@ -1,0 +1,1 @@
+return function(ctx,height) local f=Instance.new("Frame",ctx.Parent);f.Name="Skeleton";f.Size=UDim2.new(1,0,0,height or 80);f.BackgroundColor3=ctx.Theme:Get("SurfaceAlt");Instance.new("UICorner",f).CornerRadius=UDim.new(0,10);return require(script.Parent.Parent.Base.Component).new(f,ctx) end

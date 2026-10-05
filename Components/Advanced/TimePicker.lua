@@ -1,0 +1,2 @@
+local Control=require(script.Parent.Parent.Base.Control)
+return function(ctx,callback) local b=Instance.new("TextButton",ctx.Parent);b.Name="TimePicker";b.Size=UDim2.new(1,0,0,38);b.BackgroundColor3=ctx.Theme:Get("SurfaceAlt");b.TextColor3=ctx.Theme:Get("Text");b.Font=Enum.Font.Gotham;b.TextSize=14;Instance.new("UICorner",b).CornerRadius=UDim.new(0,10);local c=Control.new(b,ctx,os.date("%H:%M"));b.Text=c.Value;ctx.Input:BindPress(b,function()c:SetValue(os.date("%H:%M"));b.Text=c.Value;if callback then callback(c.Value)end end);return c end

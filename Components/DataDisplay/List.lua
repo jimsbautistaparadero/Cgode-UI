@@ -1,0 +1,2 @@
+local Component=require(script.Parent.Parent.Base.Component)
+return function(ctx,items,render) local s=require(script.Parent.Parent.Layout.ScrollContainer)(ctx,UDim2.new(1,0,0,220));for _,item in ipairs(items or {})do local b=Instance.new("TextButton",s.Instance);b.Size=UDim2.new(1,0,0,32);b.BackgroundColor3=ctx.Theme:Get("SurfaceAlt");b.TextColor3=ctx.Theme:Get("Text");b.Font=Enum.Font.Gotham;b.TextSize=13;b.Text=render and render(item) or tostring(item);Instance.new("UICorner",b).CornerRadius=UDim.new(0,8)end;return s end

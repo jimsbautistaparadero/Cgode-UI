@@ -1,0 +1,2 @@
+local Component=require(script.Parent.Parent.Base.Component)
+return function(ctx,images) local s=require(script.Parent.Parent.Layout.Grid)(ctx,2,UDim2.fromOffset(150,90));for _,id in ipairs(images or {})do local i=Instance.new("ImageLabel",s.Instance);i.BackgroundColor3=ctx.Theme:Get("SurfaceAlt");i.Image=tostring(id);i.ScaleType=Enum.ScaleType.Crop;Instance.new("UICorner",i).CornerRadius=UDim.new(0,9)end;return s end

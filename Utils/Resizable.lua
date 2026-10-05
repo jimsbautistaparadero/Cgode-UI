@@ -1,0 +1,4 @@
+local UIS=game:GetService("UserInputService")
+local M={}
+function M.bind(handle,target,minSize,maxSize) local active=false; local start; local size; local c1=handle.InputBegan:Connect(function(i) if i.UserInputType==Enum.UserInputType.MouseButton1 or i.UserInputType==Enum.UserInputType.Touch then active=true; start=i.Position; size=target.AbsoluteSize end end); local c2=UIS.InputChanged:Connect(function(i) if active and (i.UserInputType==Enum.UserInputType.MouseMovement or i.UserInputType==Enum.UserInputType.Touch) then local d=i.Position-start; local w=math.clamp(size.X+d.X,minSize.X,maxSize.X); local h=math.clamp(size.Y+d.Y,minSize.Y,maxSize.Y); target.Size=UDim2.fromOffset(w,h) end end); local c3=UIS.InputEnded:Connect(function(i) if i.UserInputType==Enum.UserInputType.MouseButton1 or i.UserInputType==Enum.UserInputType.Touch then active=false end end); return function() c1:Disconnect();c2:Disconnect();c3:Disconnect() end end
+return M

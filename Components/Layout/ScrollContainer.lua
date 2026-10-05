@@ -1,0 +1,2 @@
+local Component=require(script.Parent.Parent.Base.Component)
+return function(ctx,size) local s=Instance.new("ScrollingFrame",ctx.Parent);s.Name="ScrollContainer";s.Size=size or UDim2.new(1,0,1,0);s.BackgroundTransparency=1;s.BorderSizePixel=0;s.ScrollBarThickness=5;s.AutomaticCanvasSize=Enum.AutomaticSize.Y;s.CanvasSize=UDim2.new();local l=Instance.new("UIListLayout",s);l.Padding=UDim.new(0,8);return Component.new(s,ctx) end
