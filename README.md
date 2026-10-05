@@ -1,73 +1,140 @@
-# Cgode UI 3.1 Modular
+# Cgode UI 4.0 Modular
 
-Cgode UI is **modular internally** but has a **single public loader**.
+Cgode UI is a Roblox/Luau UI library built around one stable public loader and a modular internal architecture.
 
-The user experience is exactly:
+**Public source / loader**
 
-<<<<<<< HEAD
-`load -> use -> render`
+```text
+https://raw.githubusercontent.com/jimsbautistaparadero/Cgode-UI/main/init.lua
+```
 
-## Load
+## Install
 
 ```lua
-local lib = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/jimsbautistaparadero/Cgode-UI/main/Cgode/init.lua"
+local Cgode = loadstring(game:HttpGet(
+    "https://raw.githubusercontent.com/jimsbautistaparadero/Cgode-UI/main/init.lua"
 ))()
 ```
-=======
-## Example
-See `CgodeUI/Examples/Basic.client.lua`.
->>>>>>> FETCH_HEAD
 
-The loader fetches the internal modules from the repository and returns the public `Cgode` facade.
+The public `init.lua` resolves the internal modules from the same repository, caches modules per load, and returns the `Cgode` facade.
 
-## Use
+## Quick start
 
 ```lua
-local window = lib.createWindow("This Is A Window", "TestWindow", true)
+local lib = Cgode
+local window = lib:CreateWindow("Cgode UI", "Demo", true, {
+    Resizable = true,
+    Size = UDim2.fromOffset(640, 480),
+})
 
-local tab = window.createTab("Main")
-local section = tab.createSection("Test Section", false)
+local tab = window:CreateTab("Main")
+local section = tab:CreateSection("Controls")
 
-section.createText("Hello World")
-
-section.createButton("Test Button", function()
-    print("Button Pressed!")
+section:CreateButton("Run", function()
+    print("clicked")
 end)
 
-section.createToggle("Test Toggle", false, function(value)
-    print(value)
+local toggle = section:CreateToggle("Enabled", true, function(value)
+    print("enabled", value)
 end)
 
-section.createSlider("Test Slider", {
-    default = 50,
-    min = 1,
+local slider = section:CreateSlider("Amount", {
+    min = 0,
     max = 100,
+    default = 50,
     precise = true,
-    step = 0.1
+    step = 0.5,
 }, function(value)
-    print(value)
+    print("amount", value)
 end)
 
-local textbox = section.createTextBox("Test TextBox", "Test", function(value)
-    print(value)
+section:CreateDropdown("Mode", {"Safe", "Fast", "Custom"}, "Safe", function(mode)
+    print("mode", mode)
 end)
 
-section.createDropdown(
-    "Test Dropdown",
-    {"Option 1","Option 2","Option 3"},
-    "Option 1",
-    function(value)
-        print(value)
-    end
-)
-
-section.createKeyBind("KeyBind", Enum.KeyCode.K, function()
-    print("Key pressed")
-end)
-
-window.notification("Cgode UI", "Loaded!")
+window:Notify("Cgode UI", "Library loaded")
 ```
+
+## What is included
+
+### UI controls
+
+Buttons, icon buttons, toggles, checkboxes, radio groups, sliders, number inputs, text boxes, dropdowns, multi-select dropdowns, keybinds, color pickers, badges, links, images, code blocks, search boxes, combo boxes, command palettes, context menus, accordions, segmented controls, tag inputs, steppers, range sliders, XY pads, tree views, date/time fields, autocomplete, pagination, ratings, breadcrumbs, popovers.
+
+### Data and visualization
+
+Lists, virtual lists, tables, data grids, statistics cards, activity feeds, timelines, sparklines, bar charts, and log viewers.
+
+### Feedback
+
+Notifications, toasts, dialogs, confirm dialogs, loading indicators, progress bars, spinners, skeleton states, tooltips, empty states, error states, and banners.
+
+### Layout
+
+Container, Stack, Row, Column, Grid, ResponsiveGrid, SplitPane, ScrollContainer, Overlay, Card, and Panel primitives are exposed through the same section API.
+
+### Significant library-level features
+
+1. Modular public loader with deterministic GitHub source.
+2. Module fetch caching.
+3. Component registry and component metadata.
+4. Theme presets and custom theme registration.
+5. Live theme refresh across every open window.
+6. Animation/Tween manager.
+7. Pulse feedback helper.
+8. Global keyboard bindings.
+9. Key capture mode.
+10. Input binding cleanup.
+11. Central reactive state store.
+12. State subscriptions.
+13. State snapshots.
+14. Persistent config files when `writefile/readfile` are available.
+15. In-memory config fallback.
+16. JSON encode/decode helpers.
+17. Device detection.
+18. Device capability reporting.
+19. Device change observation.
+20. Touch-aware input paths.
+21. Responsive window sizing.
+22. Minimum and maximum window bounds.
+23. Dragging support.
+24. Resizing support.
+25. Window centering.
+26. Window position getters/setters.
+27. Window size getters/setters.
+28. Window visibility control.
+29. RightShift window toggle shortcut.
+30. Active-window focus management.
+31. Multiple windows.
+32. Global destroy-all support.
+33. Window destruction cleanup.
+34. Per-window connection tracking.
+35. Collapsible sections.
+36. Scrollable tab pages.
+37. Scrollable tab navigation.
+38. Tab selection API.
+39. Popup/dropdown teardown.
+40. Modal dialogs.
+41. Confirmation dialogs.
+42. Command palette presentation.
+43. Context-menu presentation.
+44. Toast stacking.
+45. Theme-role attributes for safe repainting.
+46. Component capability discovery with `IsAvailable`.
+47. Direct component lookup with `GetComponent`.
+48. Component version metadata.
+49. Compatibility aliases (`CreateMain`, `CreateWindow`, title-case control names).
+50. Slider support for legacy `defualt`.
+51. Slider snapping and precision.
+52. Range-slider value normalization.
+53. Pagination with clamped bounds.
+54. Rating control.
+55. Tree data rendering.
+56. List refresh APIs.
+57. Table/data-grid rendering.
+58. Lightweight chart primitives.
+59. Code/log presentation.
+60. Utility modules for signals, maids, colors, math, text, instances, validation, dragging, and resizing.
 
 ## Architecture
 
@@ -95,4 +162,10 @@ Cgode/
 └── Utils/
 ```
 
-`Cgode/init.lua` is the public entry point. The consumer never has to know the internal module layout.
+`Cgode/init.lua` is the only file consumers need to load.
+
+## Compatibility notes
+
+The library targets Roblox/Luau environments that expose `loadstring` and `game:HttpGet`, as expected by common script-loader environments. Persistent configuration is opportunistic: standard Roblox environments do not expose `writefile/readfile`, so the config manager transparently falls back to memory.
+
+See [API.md](API.md) for the public API and [GUIDE.md](GUIDE.md) for patterns.
